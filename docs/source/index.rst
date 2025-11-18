@@ -86,6 +86,7 @@ In case you are already fluent in compiling C++ projects and HPC, running PIC si
    models/collisional_ionization
    models/binary_collisions
    models/atomic_physics
+   models/photon_transport
 
 .. toctree::
    :caption: Post-Processing

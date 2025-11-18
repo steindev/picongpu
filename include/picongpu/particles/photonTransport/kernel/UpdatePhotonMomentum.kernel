@@ -1,0 +1,90 @@
+/* Copyright 2026 Klaus Steiniger
+ *
+ * This file is part of PIConGPU.
+ *
+ * PIConGPU is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PIConGPU is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PIConGPU.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include "picongpu/defines.hpp"
+
+#include "picongpu/particles/atomicPhysics/GetPhysicalEnergy.hpp"
+
+#include <pmacc/particles/algorithm/ForEach.hpp>
+
+#include <cstdint>
+
+namespace picongpu::particles::photonTransport::kernel
+{
+    /** update photon momentum kernel
+     *
+     * @attention assumes that momentum or energy difference values are known
+     *
+     * called by updatePhotons sub-stage, changes the momentum all macro particles
+     *  of the species T_Photon.
+     */
+    template<typename T_Photon>
+    struct UpdatePhotonMomentumKernel
+    {
+        /** call operator
+         *
+         * called by updatePhotons sub-stage
+         *
+         * @param worker object containing the device and block
+         *  information, passed by PMACC_KERNEL call
+         * @param areaMapping mapping of blockIndex to block superCell index
+         * @param photonBox deviceDataBox giving access to the photon species' particle frames
+         *   of all local superCells
+         */
+        template<
+            typename T_Worker,
+            typename T_AreaMapping,
+            typename T_PhotonBox>
+        HDINLINE void operator()(
+            T_Worker const& worker,
+            T_AreaMapping const areaMapping,
+            T_PhotonBox photonBox) const
+        {
+            pmacc::DataSpace<simDim> const superCellIdx = areaMapping.getSuperCellIndex(worker.blockDomIdxND());
+
+            auto forEachLocalPhotonBoxEntry
+                = pmacc::particles::algorithm::acc::makeForEach(worker, photonBox, superCellIdx);
+
+            // end kernel if superCell already finished or if contains no particles
+            if( !forEachLocalPhotonBoxEntry.hasParticles() )
+                return;
+
+            // update photon momentum
+            forEachLocalPhotonBoxEntry(
+                [&](T_Worker const& worker, auto& photon)
+                {
+                    // turn photons to the left by 1 deg.
+                    auto const deltaTheta = 3.141_X/180._X;
+                    float_X sinValue, cosValue;
+                    pmacc::math::sincos(deltaTheta, sinValue, cosValue);
+
+                    using MomType = ::picongpu::momentum::type;
+                    MomType mom = photon[momentum_];
+                    // internal units, scaled
+
+                    auto new_mom_x = mom.x() * cosValue - mom.y() * sinValue;
+                    auto new_mom_y = mom.y() * cosValue + mom.x() * sinValue;
+
+                    photon[momentum_] = MomType(new_mom_x, new_mom_y, mom.z());
+                });
+        }
+    };
+} // namespace picongpu::particles::photonScatterer::kernel
