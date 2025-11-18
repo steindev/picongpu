@@ -194,11 +194,14 @@ namespace picongpu
     //! alias for particle shape, see also species.param
     alias(shape);
 
-    //! alias for particle pusher, see alsospecies.param
+    //! alias for particle pusher, see also species.param
     alias(particlePusher);
 
-    //! alias for particle that emmits synchrotron radiation, see also synchrotron.param
+    //! alias for particle that emits synchrotron radiation, see also synchrotron.param
     alias(synchrotron);
+
+    //! alias for particle scatterer
+    alias(photonTransport);
 
     //! alias for particle to field interpolation, see also species.param
     alias(interpolation);

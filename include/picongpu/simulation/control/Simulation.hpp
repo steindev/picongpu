@@ -1,7 +1,7 @@
-/* Copyright 2013-2024 Axel Huebl, Felix Schmitt, Heiko Burau, Rene Widera,
+/* Copyright 2013-2026 Axel Huebl, Felix Schmitt, Heiko Burau, Rene Widera,
  *                     Richard Pausch, Alexander Debus, Marco Garten,
  *                     Benjamin Worpitz, Alexander Grund, Sergei Bastrakov,
- *                     Brian Marre, Filip Optolowicz
+ *                     Brian Marre, Filip Optolowicz, Klaus Steiniger
  *
  * This file is part of PIConGPU.
  *
@@ -53,6 +53,7 @@
 #include "picongpu/simulation/stage/ParticleInit.hpp"
 #include "picongpu/simulation/stage/ParticleIonization.hpp"
 #include "picongpu/simulation/stage/ParticlePush.hpp"
+#include "picongpu/simulation/stage/PhotonTransport.hpp"
 #include "picongpu/simulation/stage/RuntimeDensityFile.hpp"
 #include "picongpu/simulation/stage/SynchrotronRadiation.hpp"
 #include "picongpu/versionFormat.hpp"
@@ -325,6 +326,8 @@ namespace picongpu
 
             atomicPhysics = std::make_shared<simulation::stage::AtomicPhysics>(*cellDescription);
 
+			photonTransport = std::make_shared<simulation::stage::PhotonTransport>(*cellDescription);
+
             synchrotronRadiation = std::make_shared<simulation::stage::SynchrotronRadiation>(*cellDescription);
 
             initFields(dc);
@@ -502,6 +505,7 @@ namespace picongpu
             ParticleIonization{*cellDescription}(currentStep);
             (*atomicPhysics)(*cellDescription, currentStep);
             (*synchrotronRadiation)(currentStep);
+			(*photonTransport)(*cellDescription, currentStep);
             EventTask commEvent;
             ParticlePush{}(currentStep, commEvent);
             fieldBackground->disable(currentStep);
@@ -577,6 +581,9 @@ namespace picongpu
         std::shared_ptr<simulation::stage::SynchrotronRadiation> synchrotronRadiation;
 
         std::shared_ptr<simulation::stage::AtomicPhysics> atomicPhysics;
+
+		// extension: Photon Transport
+		std::shared_ptr<simulation::stage::PhotonTransport> photonTransport;
 
         // Field absorber stage, has to live always as it is used for registering options like a plugin.
         // Because of it, has a special init() method that has to be called during initialization of the simulation
