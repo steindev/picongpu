@@ -29,14 +29,14 @@ namespace picongpu::simulation::stage
     struct PhotonTransport
     {
         // Deduce whether there is a species with a "photonTransport<>" flag. If so, set photonTransportActive to True.
-        using SpeciesForPhotonTransport = typename pmacc::particles::traits::FilterByFlag<VectorAllSpecies, picongpu::photonTransport<>>::type;
+        using SpeciesForPhotonTransport = typename pmacc::particles::traits::FilterByFlag<VectorAllSpecies, picongpu::photonScatterer<>>::type;
 
         static constexpr auto numberPhotonTransportSpecies = pmacc::mp_size<SpeciesForPhotonTransport>::value;
 
         static constexpr bool photonTransportActive = numberPhotonTransportSpecies > 0;
 
     public:
-        PhotonTransport();
+        PhotonTransport(picongpu::MappingDesc const);
 
         /** Perform scattering of photon species from background electron density
          *

@@ -201,7 +201,7 @@ namespace picongpu
     alias(synchrotron);
 
     //! alias for particle scatterer
-    alias(photonTransport);
+    alias(photonScatterer);
 
     //! alias for particle to field interpolation, see also species.param
     alias(interpolation);

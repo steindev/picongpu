@@ -79,7 +79,7 @@ namespace picongpu
         , massRatio<MassRatioPhotons>
         , chargeRatio<ChargeRatioPhotons>
         /* */
-        , photonScatterer<particles::photonScatterer::DSF>
+        /*, photonScatterer< >*/
     >;
 
     /* define species electrons */
