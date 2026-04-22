@@ -88,7 +88,7 @@ namespace picongpu::particles::creation
          * called by picongpu stage/sub-stage
          *
          * @param worker object containing the device and block information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param sourceBox deviceDataBox giving access to the particle frames of sourceSpecies particles of all local
          * superCells
          * @param productBox deviceDataBox giving access to the particle frames of productSpecies particles of all

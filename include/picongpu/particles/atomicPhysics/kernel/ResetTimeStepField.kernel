@@ -40,7 +40,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          * called by ResetLocalTimeStep atomic physics sub-stage
          *
          * @param worker object containing the device and block information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param timeRemainingBox deviceDataBox containing local atomicPhysics step
          *  time remaining for every superCell
          * @param timeStepBox deviceDataBox containing local atomicPhysics time step
@@ -57,7 +57,7 @@ namespace picongpu::particles::atomicPhysics::kernel
             T_LocalTimeRemainingBox const timeRemainingBox,
             T_LocalTimeStepBox timeStepBox) const
         {
-            // atomicPhysics superCellFields have no guard, but areMapping includes a guard
+            // atomicPhysics superCellFields have no guard, but areaMapping includes a guard
             //  -> must subtract guard to get correct superCellFieldIdx
             pmacc::DataSpace<picongpu::simDim> const superCellFieldIdx
                 = areaMapping.getSuperCellIndex(worker.blockDomIdxND()) - areaMapping.getGuardingSuperCells();

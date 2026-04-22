@@ -44,7 +44,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          *
          * @param worker object containing the device and block
          *  information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param timeStepBox deviceDataBox giving access to localTimeStep superCellField values
          *  of all local superCells
          * @param timeStepBox deviceDataBox giving access to superCell local rateCaches
@@ -63,7 +63,7 @@ namespace picongpu::particles::atomicPhysics::kernel
             T_LocalTimeStepBox timeStepBox,
             T_LocalRateCache rateCacheBox) const
         {
-            // atomicPhysics superCellFields have no guard, but areMapping includes a guard
+            // atomicPhysics superCellFields have no guard, but areaMapping includes a guard
             //  -> must subtract guard to get correct superCellFieldIdx
             pmacc::DataSpace<picongpu::simDim> const superCellFieldIdx
                 = areaMapping.getSuperCellIndex(worker.blockDomIdxND()) - areaMapping.getGuardingSuperCells();

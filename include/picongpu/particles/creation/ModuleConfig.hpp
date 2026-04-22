@@ -44,7 +44,7 @@ namespace picongpu::particles::creation
      * additionalData and sourceSpecies particle
      * @tparam T_KernelStateType type of kernelState, one instance for each superCell
      * @tparam T_InitKernelStateFunctor functor initialising T_KernelStateType variable
-     * @tparam T_CollectiveInitFunctor functor handling collective init of cache boxes and similar
+     * @tparam T_InitCacheFunctor functor handling collective init of cache boxes and similar
      * @tparam T_AdditionalDataIndexFunctor functor returning index to access additionalData by
      *  @note only one is supported for all additionalData
      *  @note dimension is configurable

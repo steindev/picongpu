@@ -41,7 +41,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          * called by UpdateElectricField atomic physics sub-stage
          *
          * @param worker object containing the device and block information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param timeRemainingBox deviceDataBox giving access to the time remaining in the atomicPhysics step for each
          *  local superCell
          * @param eFieldBox deviceDataBox giving access to eField values for all local superCells

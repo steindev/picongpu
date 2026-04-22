@@ -49,7 +49,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          * called by CheckForOverSubscription atomic physics sub-stage
          *
          * @param worker object containing the device and block information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param rngFactory factory for uniformly distributed random number generator
          * @param eFieldBox deviceDataBox giving access to eField values for all local superCells
          * @param fieldEnergyUseCacheBox deviceDataBox giving access to the field energy use cache for each local

@@ -67,7 +67,7 @@ namespace picongpu::particles::atomicPhysics
         {
             static_assert(T_AreaMapping::AreaType == CORE + BORDER, "kernel area needs to be CORE+BORDER");
 
-            // atomicPhysics superCellFields have no guard, but areMapping includes a guard
+            // atomicPhysics superCellFields have no guard, but areaMapping includes a guard
             //  -> must subtract guard to get correct superCellFieldIdx
             return superCellIndex - areaMapping.getGuardingSuperCells();
         }

@@ -71,7 +71,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          * called by ChooseTransition atomic physics sub-stage
          *
          * @param worker object containing the device and block information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param rngFactoryFloat factory for uniformly distributed random number generator, for float_X [0,1)
          * @param chargeStateBox deviceDataBox giving access to charge state property data
          * @param atomicStateBox deviceDataBox giving access to atomic state property data

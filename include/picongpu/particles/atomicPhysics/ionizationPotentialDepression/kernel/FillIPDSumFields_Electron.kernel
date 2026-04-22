@@ -49,7 +49,7 @@ namespace picongpu::particles::atomicPhysics::ionizationPotentialDepression::ker
          *
          * @param worker object containing the device and block
          *  information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param timeRemainingBox deviceDataBox giving access to the atomic Physics step time remaining of all
          *  local superCells
          * @param electronBox deviceDataBox giving access to the specie's electron frames of all local superCells
@@ -79,7 +79,7 @@ namespace picongpu::particles::atomicPhysics::ionizationPotentialDepression::ker
         {
             pmacc::DataSpace<simDim> const superCellIdx = areaMapping.getSuperCellIndex(worker.blockDomIdxND());
 
-            // atomicPhysics superCellFields have no guard, but areMapping includes a guard
+            // atomicPhysics superCellFields have no guard, but areaMapping includes a guard
             //  -> must subtract guard to get correct superCellFieldIdx
             pmacc::DataSpace<picongpu::simDim> const superCellFieldIdx
                 = superCellIdx - areaMapping.getGuardingSuperCells();
