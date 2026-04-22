@@ -42,7 +42,7 @@ namespace picongpu
             CreateDensity<densityProfiles::Homogenous, startPosition::Random, PIC_Electrons>
             , Manipulate<manipulators::AddTemperature, PIC_Electrons>
             , CreateDensity<densityProfiles::SingleParticle, startPosition::OnePosition, PIC_Photons>
-            , Manipulate<manipulators::AssignYSpeedOfLight, PIC_Photons>
+            , Manipulate<manipulators::PhotonYDrift, PIC_Photons>
         >;
 
     } // namespace particles

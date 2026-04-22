@@ -48,18 +48,19 @@ namespace picongpu
         namespace manipulators
         {
             /** Define Lorentz factor of initial particle drift. */
-            struct YSpeedOfLightParam
+            struct YDriftFromEnergyParam
             {
-                static constexpr float_64 gamma = 1.; // beta: 0.5
+	    	
+                static constexpr float_64 energy = 1.; // unit: keV
                 /** Define initial particle drift direction vector.
                  */
                 static constexpr auto driftDirection = float3_X(0.0, 1.0, 0.0);
             };
 
-            /** Definition of manipulator that assigns a drift in X
+            /** Definition of manipulator that assigns a drift in Y
              *  using parameters from struct DriftParam.
              */
-            using AssignYSpeedOfLight = unary::Drift<YSpeedOfLightParam, pmacc::math::operation::Assign>;
+            using PhotonYDrift = unary::DriftFromEnergy<YDriftFromEnergyParam, pmacc::math::operation::Assign>;
 
             struct TemperatureParam
             {
