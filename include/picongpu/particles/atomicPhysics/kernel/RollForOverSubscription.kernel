@@ -54,7 +54,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          *
          * @param worker object containing the device and block information,
          *  passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param rngFactory random number generator factory
          * @param timeRemainingBox deviceDataBox giving access to the local time remaining of all local superCells
          * @param sharedResourceOverSubscribedBox deviceDataBox giving access to the shared resources oversubscribed

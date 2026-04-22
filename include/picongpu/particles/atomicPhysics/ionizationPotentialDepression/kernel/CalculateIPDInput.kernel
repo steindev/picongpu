@@ -51,7 +51,7 @@ namespace picongpu::particles::atomicPhysics::ionizationPotentialDepression::ker
          * called by calculateIPD atomic physics sub-stage
          *
          * @param worker object containing the device and block information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param timeRemainingBox deviceDataBox containing local atomicPhysics step
          *  time remaining for every superCell
          * @param sumWeightAllNormalizedBox deviceDataBox giving access to the sum of weights of macro particles for

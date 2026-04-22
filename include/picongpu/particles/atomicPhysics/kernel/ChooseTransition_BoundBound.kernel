@@ -106,7 +106,7 @@ namespace picongpu::particles::atomicPhysics::kernel
          *
          * @param worker object containing the device and block
          *  information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param rngFactoryFloat factory for uniformly distributed random number generator, for float_X [0,1)
          * @param timeRemainingBox deviceDataBox giving access to the local time remaining of all local super
          * cells
@@ -153,7 +153,7 @@ namespace picongpu::particles::atomicPhysics::kernel
                     T_BoundBoundTransitionDataBox>());
 
             pmacc::DataSpace<simDim> const superCellIdx = areaMapping.getSuperCellIndex(worker.blockDomIdxND());
-            // atomicPhysics superCellFields have no guard, but areMapping includes a guard
+            // atomicPhysics superCellFields have no guard, but areaMapping includes a guard
             //  -> must subtract guard to get correct superCellFieldIdx
             pmacc::DataSpace<picongpu::simDim> const superCellFieldIdx
                 = superCellIdx - areaMapping.getGuardingSuperCells();

@@ -46,7 +46,7 @@ namespace picongpu::particles::atomicPhysics::debug::kernel
          *
          * @param worker object containing the device and block
          *  information, passed by PMACC_KERNEL call
-         * @param areMapping mapping of blockIndex to block superCell index
+         * @param areaMapping mapping of blockIndex to block superCell index
          * @param particleBox deviceDataBox giving access to the ion species particle frames
          *   of all local superCells
          */

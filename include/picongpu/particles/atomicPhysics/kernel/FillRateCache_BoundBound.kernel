@@ -142,7 +142,7 @@ namespace picongpu::particles::atomicPhysics::kernel
 
             constexpr bool isUpward = (u8(T_TransitionOrdering) == u8(s_enums::TransitionOrdering::byLowerState));
 
-            // atomicPhysics superCellFields have no guard, but areMapping includes a guard
+            // atomicPhysics superCellFields have no guard, but areaMapping includes a guard
             //  -> must subtract guard to get correct superCellFieldIdx
             pmacc::DataSpace<picongpu::simDim> const superCellFieldIdx
                 = areaMapping.getSuperCellIndex(worker.blockDomIdxND()) - areaMapping.getGuardingSuperCells();
