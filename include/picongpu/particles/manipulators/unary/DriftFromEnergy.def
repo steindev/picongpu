@@ -1,0 +1,74 @@
+/* Copyright 2026 Rene Widera, Klaus Steiniger
+ *
+ * This file is part of PIConGPU.
+ *
+ * PIConGPU is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PIConGPU is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PIConGPU.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include "picongpu/param/physicalConstants.param"
+#include "picongpu/particles/manipulators/generic/Free.def"
+
+#include <pmacc/math/operation.hpp>
+
+namespace picongpu
+{
+    namespace particles
+    {
+        namespace manipulators
+        {
+            namespace unary
+            {
+                namespace param
+                {
+                    //! configuration for the unary manipulator functor DriftFromEnergy
+                    struct DriftFromEnergyCfg
+                    {
+                        /** Initial particle energy
+                         *  Examples:
+                         *    - No drift is equal to rest mass times square of speed of light
+                         *  unit: keV
+                         */
+                        static constexpr float_64 energy = 1._X;
+                        /** Define initial particle drift direction vector.
+                         */
+                        static constexpr auto driftDirection = float3_X(-1.0, 0.0, 0.0);
+                    };
+                } // namespace param
+
+                namespace acc
+                {
+                    template<typename T_ParamClass, typename T_ValueFunctor>
+                    struct DriftFromEnergy;
+                } // namespace acc
+
+                /** change particle's momentum based on energy
+                 *
+                 * allow to manipulate a momentum to a particle
+                 *
+                 * @tparam T_ParamClass param::DriftFromEnergyCfg, configuration parameter
+                 * @tparam T_ValueFunctor pmacc::math::operation::*,  binary functor type to manipulate the momentum
+                 * attribute
+                 */
+                template<
+                    typename T_ParamClass = param::DriftFromEnergyCfg,
+                    typename T_ValueFunctor = pmacc::math::operation::Add>
+                using DriftFromEnergy = generic::Free<acc::DriftFromEnergy<T_ParamClass, T_ValueFunctor>>;
+
+            } // namespace unary
+        } // namespace manipulators
+    } // namespace particles
+} // namespace picongpu
