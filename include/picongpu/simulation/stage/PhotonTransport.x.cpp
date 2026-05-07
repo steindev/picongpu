@@ -21,7 +21,6 @@
 
 #include "picongpu/defines.hpp"
 #include "picongpu/particles/photonTransport/kernel/UpdatePhotonMomentum.kernel"
-#include "picongpu/particles/photonTransport/AllLeft.hpp"
 
 #include <pmacc/Environment.hpp>
 #include <pmacc/mappings/kernel/AreaMapping.hpp>
@@ -43,10 +42,10 @@ namespace picongpu::simulation::stage
             using FrameType = typename PhotonSpecies::FrameType;
 
             //! the following line only fetches the alias
-            using TransportAlias = typename pmacc::traits::GetFlagType<FrameType, picongpu::photonScatterer<>>::type;
+            using ScattererAlias = typename pmacc::traits::GetFlagType<FrameType, picongpu::photonScatterer<>>::type;
 
             //! this resolves the alias into the actual object type, a list of photons
-            using TransportMethod = typename pmacc::traits::Resolve<TransportAlias>::type;
+            using PhotonScatterer = typename pmacc::traits::Resolve<ScattererAlias>::type;
 
             //! apply momentum update for species, requires known momentum change per macro-particle
             HINLINE static void updatePhotons(picongpu::MappingDesc const& mappingDesc, uint32_t const currentStep)
@@ -63,9 +62,9 @@ namespace picongpu::simulation::stage
                 auto& photons = *dc.get<PhotonSpecies>(FrameType::getName());
 
                 using UpdatePhotonMomentum = picongpu::particles::photonTransport::kernel ::
-                    UpdatePhotonMomentumKernel<PhotonSpecies>;
+                    UpdatePhotonMomentumKernel<PhotonSpecies, PhotonScatterer>;
                 // macro for call of kernel on every superCell, see pull request #4321
-                PMACC_LOCKSTEP_KERNEL(UpdatePhotonMomentum())
+                PMACC_LOCKSTEP_KERNEL(UpdatePhotonMomentum{})
                     .config(mapper.getGridDim(), photons)(
                         mapper,
                         photons.getDeviceParticlesBox());

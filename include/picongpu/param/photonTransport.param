@@ -30,6 +30,30 @@
 
 namespace picongpu::photonTransport
 {
+    namespace scatterer
+    {
+        /** Deflect all photons to the left
+         */
+        template<typename T_AllLeftParam>
+        struct AllLeft;
+
+        /** Deflect all photons to the right
+         */
+        template<typename T_AllRightParam>
+        struct AllRight;
+    } // namespace scatterer
+
+    /** Define deflection angle of the AllLeft and/or AllRight photon scatterer
+     */
+    struct AllToOneSideParam
+    {
+        /** Deflect photons by deltaTheta in every timestep
+         * unit: rad
+         */
+        static constexpr float_64 deltaTheta = 3.141/180.;
+    };
+
+    //! TODO: The ElectronHistogram configuration may need to go into the param struct of a specific scatterer
     //! configuration of electron ElectronHistogram
     //!@{
     struct MaxEnergyParam
@@ -38,10 +62,22 @@ namespace picongpu::photonTransport
         static constexpr float_X maxEnergy = float_X(1e7);
     };
 
-    using ElectronHistogram = particles::atomicPhysics::electronDistribution::LogSpaceHistogram<
+    using ElectronHistogram = ::picongpu::particles::atomicPhysics::electronDistribution::LogSpaceHistogram<
         // T_numberBins
         100u,
         MaxEnergyParam>;
 
     //!@}
 } // namespace picongpu::photonTransport
+
+namespace picongpu
+{
+    /** configuration of cross-section computation method for photon scattering
+     *
+     * Defining a scatterer is optional for photons
+     *
+     * - photonTransport::scatterer::AllLeft : Single line documentation required?
+     * - photonTransport::scatterer::AllRight : Single line documentation required?
+     */
+    using UsedPhotonScatterer = photonTransport::scatterer::AllLeft<photonTransport::AllToOneSideParam>;
+} // namespace picongpu

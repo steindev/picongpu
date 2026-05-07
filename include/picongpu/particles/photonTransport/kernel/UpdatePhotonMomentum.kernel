@@ -21,8 +21,6 @@
 
 #include "picongpu/defines.hpp"
 
-#include "picongpu/particles/atomicPhysics/GetPhysicalEnergy.hpp"
-
 #include <pmacc/particles/algorithm/ForEach.hpp>
 
 #include <cstdint>
@@ -33,10 +31,13 @@ namespace picongpu::particles::photonTransport::kernel
      *
      * @attention assumes that momentum or energy difference values are known
      *
-     * called by updatePhotons sub-stage, changes the momentum all macro particles
-     *  of the species T_Photon.
+     * called by updatePhotons sub-stage, changes the momentum of all macro particles
+     *  of the species T_Photon by applying the T_Scatterer functor to each macro particle.
      */
-    template<typename T_Photon>
+    template<
+        typename T_Photon,
+        typename T_Scatterer
+    >
     struct UpdatePhotonMomentumKernel
     {
         /** call operator
@@ -67,24 +68,13 @@ namespace picongpu::particles::photonTransport::kernel
             if( !forEachLocalPhotonBoxEntry.hasParticles() )
                 return;
 
-            // update photon momentum
+            // for each photon call the PhotonScatterer to update its momentum
+            // Alltough the worker is not required for execution of the scatterer,
+            // it is an argument of the lambda function because the forEach functor will call
+            // this lambda with two arguments
             forEachLocalPhotonBoxEntry(
-                [&](T_Worker const& worker, auto& photon)
-                {
-                    // turn photons to the left by 1 deg.
-                    auto const deltaTheta = 3.141_X/180._X;
-                    float_X sinValue, cosValue;
-                    pmacc::math::sincos(deltaTheta, sinValue, cosValue);
-
-                    using MomType = ::picongpu::momentum::type;
-                    MomType mom = photon[momentum_];
-                    // internal units, scaled
-
-                    auto new_mom_x = mom.x() * cosValue - mom.y() * sinValue;
-                    auto new_mom_y = mom.y() * cosValue + mom.x() * sinValue;
-
-                    photon[momentum_] = MomType(new_mom_x, new_mom_y, mom.z());
-                });
+                [&](T_Worker const& , auto& photon)
+                { T_Scatterer{}(photon); });
         }
     };
 } // namespace picongpu::particles::photonScatterer::kernel
