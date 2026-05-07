@@ -21,16 +21,16 @@
 
 namespace picongpu::photonTransport::scatterer
 {
-    /** Implementation of a photon scatterer functor that simply deflects photons to the left.
+    /** Implementation of a photon scatterer functor that simply deflects photons to the right.
      *
      */
-    struct AllLeft
+    struct AllRight
     {
         template<typename T_Photon>
         HDINLINE void operator()(T_Photon const& photon)
         {
-            // turn photons to the left by 1 deg.
-            auto const deltaTheta = 3.141_X/180._X;
+            // turn photons to the right by 1 deg.
+            auto const deltaTheta = -3.141_X/180._X;
             float_X sinValue, cosValue;
             pmacc::math::sincos(deltaTheta, sinValue, cosValue);
 
