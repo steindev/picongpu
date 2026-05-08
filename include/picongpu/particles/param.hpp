@@ -29,10 +29,10 @@
 #include "picongpu/particles/atomicPhysics/param.hpp"
 #include "picongpu/param/particleFilters.param"
 #include "picongpu/param/species.param"
+#include "picongpu/particles/photonTransport/param.hpp"
 #include "picongpu/param/speciesDefinition.param"
 #include "picongpu/param/collision.param"
 #include "picongpu/param/fieldSolver.param"
-#include "picongpu/particles/photonTransport/param.hpp"
 
 #include "picongpu/unitless/density.unitless"
 #include "picongpu/unitless/particle.unitless"

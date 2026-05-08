@@ -24,15 +24,18 @@ namespace picongpu::photonTransport::scatterer
     /** Implementation of a photon scatterer functor that simply deflects photons to the left.
      *
      */
-    struct AllLeft
+    template<typename T_AllLeftParam>
+    struct AllLeft : public T_AllLeftParam
     {
+        using Params = T_AllLeftParam;
+
         template<typename T_Photon>
-        HDINLINE void operator()(T_Photon const& photon)
+        HDINLINE void operator()(T_Photon& photon)
         {
             // turn photons to the left by 1 deg.
-            auto const deltaTheta = 3.141_X/180._X;
+            auto const deltaTheta = Params::deltaTheta;
             float_X sinValue, cosValue;
-            pmacc::math::sincos(deltaTheta, sinValue, cosValue);
+            pmacc::math::sincos(precisionCast<float_X>(deltaTheta), sinValue, cosValue);
 
             using MomType = ::picongpu::momentum::type;
             MomType mom = photon[momentum_];
