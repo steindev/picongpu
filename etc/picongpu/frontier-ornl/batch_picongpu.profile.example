@@ -96,7 +96,7 @@ export PATH=$PICSRC/src/tools/bin:$PATH
 #   - SLURM (sbatch)
 #   - "caar" queue
 export TBG_SUBMIT="cat"
-export TBG_TPLFILE="etc/picongpu/frontier-ornl/batch.tpl"
+export TBG_TPLFILE="etc/picongpu/frontier-ornl/batch_simple.tpl"
 
 # allocate an interactive shell for one hour
 #   getNode 2  # allocates two interactive nodes (default: 1)
