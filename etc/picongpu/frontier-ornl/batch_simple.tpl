@@ -114,4 +114,4 @@ node_check_err=1
 # Run PIConGPU
 echo "Start PIConGPU."
 
-srun -n !TBG_tasks --nodes=!TBG_nodes  -K1 $TBG_dstPath/input/bin/picongpu --mpiDirect !TBG_author !TBG_programParams
+srun -n !TBG_tasks --nodes=!TBG_nodes  -K1 $TBG_dstPath/input/bin/picongpu !TBG_author !TBG_programParams
