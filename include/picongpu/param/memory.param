@@ -39,7 +39,7 @@ namespace picongpu
      *   - reduces
      *   - ...
      */
-    constexpr size_t reservedGpuMemorySize = 350 * 1024 * 1024;
+    constexpr size_t reservedGpuMemorySize = 2ULL * 1024 * 1024 * 1024; // 2 GiB
 
     /* short namespace*/
     namespace mCT = pmacc::math::CT;
@@ -81,11 +81,11 @@ namespace picongpu
     struct DefaultExchangeMemCfg
     {
         // Memory used for a direction for a simulation performed with 32bit precision.
-        static constexpr uint32_t BYTES_EXCHANGE_X = 1 * 1024 * 1024; // 1 MiB
-        static constexpr uint32_t BYTES_EXCHANGE_Y = 3 * 1024 * 1024; // 3 MiB
-        static constexpr uint32_t BYTES_EXCHANGE_Z = 1 * 1024 * 1024; // 1 MiB
-        static constexpr uint32_t BYTES_EDGES = 32 * 1024; // 32 kiB
-        static constexpr uint32_t BYTES_CORNER = 8 * 1024; // 8 kiB
+        static constexpr uint32_t BYTES_EXCHANGE_X = 10 * 1024 * 1024; // 10 MiB
+        static constexpr uint32_t BYTES_EXCHANGE_Y = 30 * 1024 * 1024; // 30 MiB
+        static constexpr uint32_t BYTES_EXCHANGE_Z = 10 * 1024 * 1024; // 10 MiB
+        static constexpr uint32_t BYTES_EDGES = 1 * 1024 * 1024; // 1 MiB
+        static constexpr uint32_t BYTES_CORNER = 512 * 1024; // 512 kiB
 
         /** Reference local domain size
          *
