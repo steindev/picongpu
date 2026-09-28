@@ -20,6 +20,7 @@
 #pragma once
 
 #include "picongpu/defines.hpp"
+#include "picongpu/particles/photonTransport/ParticleType.hpp"
 #include "picongpu/particles/param.hpp"
 #include <pmacc/particles/traits/FilterByFlag.hpp>
 
@@ -31,10 +32,19 @@ namespace picongpu::simulation::stage
         // Deduce whether there is a species with a "photonTransport<>" flag. If so, set photonTransportActive to True.
         using SpeciesForPhotonTransport = typename pmacc::particles::traits::FilterByFlag<VectorAllSpecies, picongpu::photonScatterer<>>::type;
 
-        static constexpr auto numberPhotonTransportSpecies = pmacc::mp_size<SpeciesForPhotonTransport>::value;
+        static constexpr auto numberPhotonTransportPhotonSpecies = pmacc::mp_size<SpeciesForPhotonTransport>::value;
 
-        static constexpr bool photonTransportActive = numberPhotonTransportSpecies > 0;
+        using PhotonTransportElectronSpecies = typename particles::photonTransport::traits::
+            FilterByParticleType_t<VectorAllSpecies, picongpu::particles::photonTransport::Tags::Electron>;
 
+        static constexpr auto numberPhotonTransportElectronSpecies = pmacc::mp_size<PhotonTransportElectronSpecies>::value;
+
+        static constexpr bool photonTransportActive
+            = ( numberPhotonTransportPhotonSpecies > 0 && numberPhotonTransportElectronSpecies > 0 );
+
+        PMACC_CASSERT_MSG(
+            at_least_one_species_marked_as_photon_transport_electron_species_required,
+            (numberPhotonTransportPhotonSpecies == 0) || (numberPhotonTransportElectronSpecies > 0));
     public:
         PhotonTransport(picongpu::MappingDesc const);
 

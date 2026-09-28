@@ -1,4 +1,4 @@
-/* Copyright 2026-2026 Klaus Steiniger
+/* Copyright 2024-2026 Brian Marre, Klaus Steiniger
  *
  * This file is part of PIConGPU.
  *
@@ -21,9 +21,16 @@
 
 #include "picongpu/defines.hpp"
 
-// clang-format off
-#include "picongpu/param/photonTransport.param"
-#include "picongpu/particles/photonTransport/AllLeft.hpp"
-#include "picongpu/particles/photonTransport/AllRight.hpp"
-#include "picongpu/particles/photonTransport/GammaElectronBilliard.hpp"
-// clang-format on
+#include <pmacc/traits/HasFlag.hpp>
+
+#include <cstdint>
+
+namespace picongpu::particles::photonTransport
+{
+    struct Tags
+    {
+        struct Electron
+        {
+        };
+    };
+} // namespace picongpu::particles::atomicPhysics

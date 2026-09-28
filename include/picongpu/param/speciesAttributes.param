@@ -200,7 +200,12 @@ namespace picongpu
     //! alias for particle that emits synchrotron radiation, see also synchrotron.param
     alias(synchrotron);
 
-    //! alias for particle scatterer
+    /** configuration of species for photonTransport algorithm, see picongpu/particles/photonTransport/ParticleType.hpp for
+     * details
+     */
+    alias(photonTransportParticle);
+
+    //! alias for photon scatterer
     alias(photonScatterer);
 
     //! alias for particle to field interpolation, see also species.param
